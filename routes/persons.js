@@ -4,6 +4,7 @@ const Person = require('../models/person')
 
 //Getting all
 router.get('/', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         console.log('getting')
         const persons = await Person.find()
