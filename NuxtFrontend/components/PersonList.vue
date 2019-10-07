@@ -5,7 +5,7 @@
         <b-row>
           <b-button v-b-modal.modal-prevent-closing>Add Person</b-button>
 
-          <b-modal id="modal-prevent-closing" title="Add Person" hidefooter="true">
+          <b-modal id="modal-prevent-closing" title="Add Person" hide-footer>
             <SavePerson ref="form" @submit.stop.prevent="handleSubmit" />
           </b-modal>
         </b-row>
@@ -17,7 +17,7 @@
               <template v-slot:cell(action)="row">
                 <b-button
                   size="sm"
-                  @click="info(row.item, row.index, $event.target)"
+                  @click= "editPerson()"
                   class="mr-1"
                 >Edit</b-button>
               </template>
@@ -52,19 +52,14 @@ export default {
     return this.$axios
       .$get("/persons")
       .then(data => {
-        console.log(data);
-        this.datas = data;
-        this.modellingItems(this.datas);
+        console.log("data from db",data);
+        // this.datas = data;
+        this.modellingItems(data);
       })
       .catch(e => console.log(e));
   },
 
   methods: {
-    info(item, index, button) {
-      this.infoModal.title = `Row index: ${index}`;
-      this.infoModal.content = JSON.stringify(item, null, 2);
-      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
-    },
     modellingItems(datas) {
       let newData = datas.map(data => {
         return {
@@ -77,6 +72,9 @@ export default {
       });
       console.log(newData);
       this.items = newData;
+    },
+    editPerson(){
+      console.log("edit the person details");
     }
   }
 };

@@ -1,6 +1,6 @@
 <template>
   <b-container>
-    <b-card>
+    
       <div>
         <b-form @submit="onSubmit" @reset="onReset" v-if="show">
                     
@@ -33,9 +33,9 @@
           </b-form-group>
 
           <b-form-group id="input-group-5" label="Gender:">
-            <b-form-radio-group id="gender-radio-group">
-              <b-form-radio v-model="form.gender" name="some-radios" value="male">Male</b-form-radio>
-              <b-form-radio v-model="form.gender" name="some-radios" value="female">Female</b-form-radio>
+            <b-form-radio-group id="gender-radio-group" v-model="form.gender">
+              <b-form-radio  name="some-radios" value="male"> Male </b-form-radio>
+              <b-form-radio  name="some-radios" value="female"> Female </b-form-radio>
             </b-form-radio-group>
           </b-form-group>
 
@@ -45,7 +45,7 @@
               v-model="form.email"
               type="email"
               required
-              placeholder="Enter email"
+              placeholder="name@mail.com"
             ></b-form-input>
           </b-form-group>
 
@@ -63,7 +63,7 @@
           <b-button type="reset" variant="danger">Reset</b-button>
         </b-form>
       </div>
-    </b-card>
+    
   </b-container>
 </template>
 
@@ -74,33 +74,30 @@ export default {
   data() {
     return {
       form: {
+        userId:"",
+        fname: "",
+        lname:"",
+        date:"",
+        gender: "male",
         email: "",
-        name: "",
-        food: null,
-        checked: []
+        password:""        
       },
-      foods: [
-        { text: "Select One", value: null },
-        "Carrots",
-        "Beans",
-        "Tomatoes",
-        "Corn"
-      ],
       show: true
     };
   },
   methods: {
     onSubmit(evt) {
-      evt.preventDefault();
-      alert(JSON.stringify(this.form));
+      console.log("submit data");
+      
     },
     onReset(evt) {
       evt.preventDefault();
       // Reset our form values
+      this.form.userId = "";
+      this.form.fname = "";
+      this.form.lname = "";
       this.form.email = "";
-      this.form.name = "";
-      this.form.food = null;
-      this.form.checked = [];
+
       // Trick to reset/clear native browser form validation state
       this.show = false;
       this.$nextTick(() => {
