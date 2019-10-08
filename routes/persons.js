@@ -4,6 +4,7 @@ const Person = require('../models/person')
 
 //Getting all
 router.get('/', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     try {
         console.log('getting')
         const persons = await Person.find()
@@ -13,14 +14,30 @@ router.get('/', async (req, res) => {
     }
 })
 
+//Getting one by id
+router.get('/:id', getPerson ,async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    try {
+        console.log('getting by id')
+        const person = await Person.findById(req.params.id)
+        res.json(person)
+    } catch (err) {
+        res.status(500).json({message: err.message})
+    }
+})
+
 //Creating one
 router.post('/', async (req, res) => {
+
+    res.header('Access-Control-Allow-Origin', "*");
+       
     const person = new Person({
         userId: req.body.userId,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         dateOfBirth: req.body.dateOfBirth,
         gender: req.body.gender,
+        email: req.body.email,
         password: req.body.password
     })
     try {
@@ -33,6 +50,9 @@ router.post('/', async (req, res) => {
 
 //Updating one
 router.patch('/:id', getPerson, async (req, res) => {
+
+    res.header('Access-Control-Allow-Origin', "*");
+
     if(req.body.userId != null){
         res.person.userId = req.body.userId
     }
@@ -48,13 +68,16 @@ router.patch('/:id', getPerson, async (req, res) => {
     if(req.body.gender != null){
         res.person.gender = req.body.gender
     }
+    if(req.body.email != null){
+        res.person.email = req.body.email
+    }    
     if(req.body.password != null){
         res.person.password = req.body.password
     }
 
     try {
         const updatedPerson = await res.person.save()
-        res.json(updatedPerson)
+        res.status(201).json(updatedPerson)
     } catch (err) {
         res.status(400).json({ message : err.message })
     }
@@ -64,6 +87,8 @@ router.patch('/:id', getPerson, async (req, res) => {
 async function getPerson(req, res, next) {
     let person;
     try {
+        res.header('Access-Control-Allow-Origin', '*');
+        
         person = await Person.findById(req.params.id)
         if(person == null){
             return res.status(404).json({ message : 'Cannot find person'})
