@@ -49,7 +49,7 @@ export default {
   // },
   data: () => ({
     fields: [
-      "user_id",
+      // "user_id",
       "first_name",
       "last_name",
       "date_of_birth",
@@ -59,7 +59,7 @@ export default {
     items: [],
     form: {
       _id: "",
-      userId: "",
+      // userId: "",
       fname: "",
       lname: "",
       date: "",
@@ -87,7 +87,7 @@ export default {
           user_id: data.userId,
           first_name: data.firstName,
           last_name: data.lastName,
-          date_of_birth: data.dateOfBirth,
+          date_of_birth: moment(data.dateOfBirth).format("YYYY-MM-DD"),
           gender: data.gender,
           email: data.email,
           password: data.password
@@ -106,7 +106,7 @@ export default {
 
       const selectedItem = {
         _id: item._id,
-        userId: item.user_id,
+        // userId: item.user_id,
         fname: item.first_name,
         lname: item.last_name,
         date: newDate,

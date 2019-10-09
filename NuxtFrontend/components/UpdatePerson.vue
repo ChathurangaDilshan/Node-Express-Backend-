@@ -2,15 +2,7 @@
   <b-container>
     <div>
       <b-form @submit="onUpdate" v-if="show">
-        <b-form-group id="input-group-u1" label="User ID:" label-for="input-1">
-          <b-form-input
-            id="input-1"
-            v-model="form.userId"
-            type="text"
-            required
-            placeholder="Enter user id"
-          ></b-form-input>
-        </b-form-group>
+
 
         <b-form-group id="input-group-u2" label="First Name:" label-for="input-2">
           <b-form-input id="input-2" v-model="form.fname" required placeholder="Enter first name"></b-form-input>
@@ -80,10 +72,10 @@ export default {
         type: String,
         required: true
       },
-      userId: {
-        type: String,
-        required: true
-      },
+    //   userId: {
+    //     type: String,
+    //     required: true
+    //   },
       fname: {
         type: String,
         required: true
@@ -117,7 +109,7 @@ export default {
 
       const personUpdatedDetails = {
         _id: this.form._id,
-        userId: this.form.userId,
+        // userId: this.form.userId,
         firstName: this.form.fname,
         lastName: this.form.lname,
         dateOfBirth: this.form.date,
