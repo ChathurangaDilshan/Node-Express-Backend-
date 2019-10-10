@@ -10,9 +10,9 @@
         >
           <b-form-input
             id="input-2"
-            v-model.trim="fname"
+            v-model.trim="$v.fname.$model"
             placeholder="Enter first name"
-            @input="setFname($event.target.value)"
+          
             
           ></b-form-input>
           <div class="error" v-if="!$v.fname.required ">Field is required</div>
@@ -79,7 +79,7 @@
           <div class="error" v-if="!$v.email.required">Field is required</div>
         </b-form-group>
 
-        <b-form-group
+        <!-- <b-form-group
           id="input-group-7"
           label="Password:"
           label-for="input-7"
@@ -96,7 +96,7 @@
             class="error"
             v-if="!$v.password.minLength"
           >Should be greater than {{$v.password.$params.minLength.min}}</div>
-        </b-form-group>
+        </b-form-group> -->
 
         <b-button type="submit" variant="primary">Submit</b-button>
         <b-button type="reset" variant="danger">Reset</b-button>
@@ -170,13 +170,14 @@ export default {
 
       const personDetails = {
         // userId: this.form.userId,
-        firstName: this.form.fname,
-        lastName: this.form.lname,
-        dateOfBirth: this.form.date,
-        gender: this.form.gender,
-        email: this.form.email,
-        password: this.form.password
+        firstName: this.fname,
+        lastName: this.lname,
+        dateOfBirth: this.date,
+        gender: this.gender,
+        email: this.email
+       
       };
+      console.log("submitting details = ",personDetails)
       return this.$axios
         .$post("/persons", personDetails)
         .then(console.log("Saved"))
@@ -196,7 +197,7 @@ export default {
       this.form.lname = "";
       this.form.email = "";
       this.form.date = "";
-      this.form.password = "";
+     
     },
     setFname(value) {
       this.fname = value;
