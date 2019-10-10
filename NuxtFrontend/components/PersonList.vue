@@ -29,7 +29,7 @@
     </b-card>
 
     <b-modal id="SavePerson" title="Edit Person" hide-footer   >
-      <UpdatePerson ref="form" :form="form" />
+      <UpdatePerson ref="form" :itemDetails="itemDetails" />
     </b-modal>
   </b-container>
 </template>
@@ -57,16 +57,7 @@ export default {
       "action"
     ],
     items: [],
-    form: {
-      _id: "",
-      // userId: "",
-      fname: "",
-      lname: "",
-      date: "",
-      gender: "",
-      email: "",
-      password: ""
-    }
+    itemDetails:{}
     
   }),
   mounted() {
@@ -114,10 +105,12 @@ export default {
         email: item.email,
         password: item.password
       };
+      
+      this.itemDetails = selectedItem;
 
       console.log("selectedItem = ", selectedItem)
+      console.log("itemDetails =" ,this.itemDetails);
 
-      this.form = selectedItem;
       // item = this.form
     }
   },

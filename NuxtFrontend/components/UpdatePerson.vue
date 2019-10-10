@@ -2,55 +2,71 @@
   <b-container>
     <div>
       <b-form @submit="onUpdate" v-if="show">
-
-
         <b-form-group id="input-group-u2" label="First Name:" label-for="input-2">
-          <b-form-input id="input-2" v-model="form.fname" required placeholder="Enter first name"></b-form-input>
+          <b-form-input
+            id="input-2"
+            v-model.trim="form.fname"
+            placeholder="Enter first name"
+            :class="{ 'form-group--error': $v.form.fname.$error }"
+          ></b-form-input>
+          <div class="error" v-if="!$v.form.fname.required ">Field is required</div>
+          <div
+            class="error"
+            v-if="!$v.form.fname.minLength"
+          >Name must have at least {{$v.form.fname.$params.minLength.min}} letters.</div>
         </b-form-group>
 
-        <b-form-group id="input-group-u3" label="Last Name:" label-for="input-3">
-          <b-form-input id="input-3" v-model="form.lname" required placeholder="Enter last name"></b-form-input>
+        <b-form-group id="input-group-u3" label="Last Name:" label-for="input-3"  :class="{ 'form-group--error': $v.form.lname.$error }">
+          <b-form-input id="input-3" v-model.trim="form.lname"  placeholder="Enter last name"></b-form-input>
+        <div class="error" v-if="!$v.form.lname.required">Field is required</div>
+          <div
+            class="error"
+            v-if="!$v.form.lname.minLength"
+          >Name must have at least {{$v.form.lname.$params.minLength.min}} letters.</div>
+       
         </b-form-group>
 
-        <b-form-group id="input-group-u4" label="Date Of Birth:" label-for="input-4">
+        <b-form-group id="input-group-u4" label="Date Of Birth:" label-for="input-4" :class="{ 'form-group--error': $v.form.date.$error }">
           <b-form-input
             id="input-u4"
-            v-model="form.date"
-            required
+            v-model.trim="form.date"
             placeholder="Enter Date"
             type="date"
           ></b-form-input>
+          <div class="error" v-if="!$v.form.date.required">Field is required</div>
+        
         </b-form-group>
 
-        <b-form-group id="input-group-u5" label="Gender:">
-          <b-form-radio-group id="gender-radio-group-u" v-model="form.gender">
+        <b-form-group id="input-group-u5" label="Gender:"  :class="{ 'form-group--error': $v.form.gender.$error }">
+          <b-form-radio-group id="gender-radio-group-u" v-model.trim="form.gender">
             <b-form-radio name="some-radios" value="male">Male</b-form-radio>
             <b-form-radio name="some-radios" value="female">Female</b-form-radio>
           </b-form-radio-group>
+          <div class="error" v-if="!$v.form.gender.required">Field is required</div>
         </b-form-group>
 
-        <b-form-group id="input-group-6u" label="Email:" label-for="input-6">
+        <b-form-group id="input-group-6u" label="Email:" label-for="input-6" :class="{ 'form-group--error': $v.form.email.$error }">
           <b-form-input
             id="input-6u"
-            v-model="form.email"
+            v-model.trim="form.email"
             type="email"
-            required
             placeholder="name@mail.com"
           ></b-form-input>
+          <div class="error" v-if="!$v.form.email.required">Field is required</div>
         </b-form-group>
 
-        <b-form-group id="input-group-7u" label="Password:" label-for="input-7">
+        <b-form-group id="input-group-7u" label="Password:" label-for="input-7" >
           <b-form-input
             id="input-7u"
             v-model="form.password"
-            required
             placeholder="Enter password"
+            required
             type="password"
           ></b-form-input>
+          
         </b-form-group>
 
         <b-button type="submit" variant="primary">Update</b-button>
-       
       </b-form>
     </div>
   </b-container>
@@ -59,46 +75,61 @@
 
 
 <script>
+import { validationMixin } from "vuelidate";
+import { between, required, minLength, email } from "vuelidate/lib/validators";
+
 export default {
+  mixins: [validationMixin],
   data() {
     return {
-      show: true
-      //   selectedItem: {}
+      show: true,
+      form: {
+        _id: "",
+        // userId: "",
+        fname: "",
+        lname: "",
+        date: "",
+        gender: "",
+        email: "",
+        password: ""
+      },
+      fname: "",
+      lname: "",
+      date: "",
+      gender: "",
+      email: "",
+      password: ""
     };
   },
   props: {
+    itemDetails: {
+      type: Object,
+      required
+    }
+  },
+  validations: {
     form: {
-      _id: {
-        type: String,
-        required: true
-      },
-    //   userId: {
-    //     type: String,
-    //     required: true
-    //   },
       fname: {
-        type: String,
-        required: true
+        required,
+        minLength: minLength(3)
       },
       lname: {
-        type: String,
-        required: true
+        required,
+        minLength: minLength(3)
       },
       date: {
-        type: Date,
-        required: true
+        required
       },
       gender: {
-        type: String,
-        required: true
+        required
       },
       email: {
-        type: String,
-        required: true
+        required,
+        email
       },
       password: {
-        type: String,
-        required: true
+        required,
+        minLength: minLength(8)
       }
     }
   },
@@ -122,9 +153,29 @@ export default {
         .$patch("/persons/" + this.form._id, personUpdatedDetails)
         .then(console.log("Updated"))
         .catch(e => console.log(e));
-
-      
     }
+  },
+  mounted() {
+    let details = this.itemDetails;
+
+    const selected = {
+      _id: details._id,
+      fname: details.fname,
+      lname: details.lname,
+      date: details.date,
+      gender: details.gender,
+      email: details.email,
+      password: details.password
+    };
+
+    this.form = selected;
   }
 };
 </script>
+
+<style scoped>
+.error {
+  color: red;
+  font-size: 1;
+}
+</style>
