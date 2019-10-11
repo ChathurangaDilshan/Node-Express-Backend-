@@ -1,74 +1,92 @@
 <template>
   <b-container>
-    <div>
-      <b-form @submit="onUpdate" v-if="show">
-        <b-form-group id="input-group-u2" label="First Name:" label-for="input-2">
-          <b-form-input
-            id="input-2"
-            v-model.trim="form.fname"
-            placeholder="Enter first name"
-            :class="{ 'form-group--error': $v.form.fname.$error }"
-          ></b-form-input>
-          <div class="error" v-if="!$v.form.fname.required ">Field is required</div>
-          <div
-            class="error"
-            v-if="!$v.form.fname.minLength"
-          >Name must have at least {{$v.form.fname.$params.minLength.min}} letters.</div>
-        </b-form-group>
+    <b-modal id="SaveEditPerson" title="Edit Person" hide-footer>
+      <div>
+        <b-form @submit="onUpdate">
+          <b-form-group id="input-group-u2" label="First Name:" label-for="input-2">
+            <b-form-input
+              id="input-2"
+              v-model.trim="form.fname"
+              placeholder="Enter first name"
+              :class="{ 'form-group--error': $v.form.fname.$error }"
+            ></b-form-input>
+            <div class="error" v-if="!$v.form.fname.required ">Field is required</div>
+            <div
+              class="error"
+              v-if="!$v.form.fname.minLength"
+            >Name must have at least {{$v.form.fname.$params.minLength.min}} letters.</div>
+          </b-form-group>
 
-        <b-form-group id="input-group-u3" label="Last Name:" label-for="input-3"  :class="{ 'form-group--error': $v.form.lname.$error }">
-          <b-form-input id="input-3" v-model.trim="form.lname"  placeholder="Enter last name"></b-form-input>
-        <div class="error" v-if="!$v.form.lname.required">Field is required</div>
-          <div
-            class="error"
-            v-if="!$v.form.lname.minLength"
-          >Name must have at least {{$v.form.lname.$params.minLength.min}} letters.</div>
-       
-        </b-form-group>
+          <b-form-group
+            id="input-group-u3"
+            label="Last Name:"
+            label-for="input-3"
+            :class="{ 'form-group--error': $v.form.lname.$error }"
+          >
+            <b-form-input id="input-3" v-model.trim="form.lname" placeholder="Enter last name"></b-form-input>
+            <div class="error" v-if="!$v.form.lname.required">Field is required</div>
+            <div
+              class="error"
+              v-if="!$v.form.lname.minLength"
+            >Name must have at least {{$v.form.lname.$params.minLength.min}} letters.</div>
+          </b-form-group>
 
-        <b-form-group id="input-group-u4" label="Date Of Birth:" label-for="input-4" :class="{ 'form-group--error': $v.form.date.$error }">
-          <b-form-input
-            id="input-u4"
-            v-model.trim="form.date"
-            placeholder="Enter Date"
-            type="date"
-          ></b-form-input>
-          <div class="error" v-if="!$v.form.date.required">Field is required</div>
-        
-        </b-form-group>
+          <b-form-group
+            id="input-group-u4"
+            label="Date Of Birth:"
+            label-for="input-4"
+            :class="{ 'form-group--error': $v.form.date.$error }"
+          >
+            <b-form-input
+              id="input-u4"
+              v-model.trim="form.date"
+              placeholder="Enter Date"
+              type="date"
+            ></b-form-input>
+            <div class="error" v-if="!$v.form.date.required">Field is required</div>
+          </b-form-group>
 
-        <b-form-group id="input-group-u5" label="Gender:"  :class="{ 'form-group--error': $v.form.gender.$error }">
-          <b-form-radio-group id="gender-radio-group-u" v-model.trim="form.gender">
-            <b-form-radio name="some-radios" value="male">Male</b-form-radio>
-            <b-form-radio name="some-radios" value="female">Female</b-form-radio>
-          </b-form-radio-group>
-          <div class="error" v-if="!$v.form.gender.required">Field is required</div>
-        </b-form-group>
+          <b-form-group
+            id="input-group-u5"
+            label="Gender:"
+            :class="{ 'form-group--error': $v.form.gender.$error }"
+          >
+            <b-form-radio-group id="gender-radio-group-u" v-model.trim="form.gender">
+              <b-form-radio name="some-radios" value="male">Male</b-form-radio>
+              <b-form-radio name="some-radios" value="female">Female</b-form-radio>
+            </b-form-radio-group>
+            <div class="error" v-if="!$v.form.gender.required">Field is required</div>
+          </b-form-group>
 
-        <b-form-group id="input-group-6u" label="Email:" label-for="input-6" :class="{ 'form-group--error': $v.form.email.$error }">
-          <b-form-input
-            id="input-6u"
-            v-model.trim="form.email"
-            type="email"
-            placeholder="name@mail.com"
-          ></b-form-input>
-          <div class="error" v-if="!$v.form.email.required">Field is required</div>
-        </b-form-group>
+          <b-form-group
+            id="input-group-6u"
+            label="Email:"
+            label-for="input-6"
+            :class="{ 'form-group--error': $v.form.email.$error }"
+          >
+            <b-form-input
+              id="input-6u"
+              v-model.trim="form.email"
+              type="email"
+              placeholder="name@mail.com"
+            ></b-form-input>
+            <div class="error" v-if="!$v.form.email.required">Field is required</div>
+          </b-form-group>
 
-        <b-form-group id="input-group-7u" label="Password:" label-for="input-7" >
-          <b-form-input
-            id="input-7u"
-            v-model="form.password"
-            placeholder="Enter password"
-            required
-            type="password"
-          ></b-form-input>
-          
-        </b-form-group>
+          <b-form-group id="input-group-7u" label="Password:" label-for="input-7">
+            <b-form-input
+              id="input-7u"
+              v-model="form.password"
+              placeholder="Enter password"
+              required
+              type="password"
+            ></b-form-input>
+          </b-form-group>
 
-        <b-button type="submit" variant="primary">Update</b-button>
-      </b-form>
-    </div>
+          <b-button type="submit" variant="primary" @click="$bvModal.hide('SaveEditPerson')">Update</b-button>
+        </b-form>
+      </div>
+    </b-modal>
   </b-container>
 </template>
 
@@ -156,20 +174,37 @@ export default {
     }
   },
   mounted() {
-    let details = this.itemDetails;
+    // let details = this.itemDetails;
+    // console.log("newItemDetails = ", details);
+    // const selected = {
+    //   _id: details._id,
+    //   fname: details.fname,
+    //   lname: details.lname,
+    //   date: details.date,
+    //   gender: details.gender,
+    //   email: details.email,
+    //   password: details.password
+    // };
 
-    const selected = {
-      _id: details._id,
-      fname: details.fname,
-      lname: details.lname,
-      date: details.date,
-      gender: details.gender,
-      email: details.email,
-      password: details.password
-    };
-
-    this.form = selected;
+    // this.form = selected;
+  },
+  watch: {
+    itemDetails : function () {
+      
+        this.form._id = this.itemDetails._id,
+        this.form.fname =  this.itemDetails.fname,
+        this.form.lname = this.itemDetails.lname,
+        this.form.date = this.itemDetails.date,
+        this.form.gender = this.itemDetails.gender,
+       this.form.email = this.itemDetails.email,
+       this.form.password = this.itemDetails.password
+      
+    // this.form = itemDetails
+    console.log("this.form",this.form)
+    this.$bvModal.show('SaveEditPerson')
+    }
   }
+  
 };
 </script>
 

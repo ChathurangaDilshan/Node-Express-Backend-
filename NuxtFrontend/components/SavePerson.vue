@@ -1,107 +1,109 @@
 <template>
   <b-container>
-    <div>
-      <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-        <b-form-group
-          id="input-group-2"
-          label="First Name:"
-          label-for="input-2"
-          :class="{ 'form-group--error': $v.fname.$error }"
-        >
-          <b-form-input
-            id="input-2"
-            v-model.trim="$v.fname.$model"
-            placeholder="Enter first name"
-          
-            
-          ></b-form-input>
-          <div class="error" v-if="!$v.fname.required ">Field is required</div>
-          <div
-            class="error"
-            v-if="!$v.fname.minLength"
-          >Name must have at least {{$v.fname.$params.minLength.min}} letters.</div>
-        </b-form-group>
-
-        <b-form-group
-          id="input-group-3"
-          label="Last Name:"
-          label-for="input-3"
-          :class="{ 'form-group--error': $v.lname.$error }"
-        >
-          <b-form-input id="input-3" v-model.trim="$v.lname.$model" placeholder="Enter last name"></b-form-input>
-
-          <div class="error" v-if="!$v.lname.required">Field is required</div>
-          <div
-            class="error"
-            v-if="!$v.lname.minLength"
-          >Name must have at least {{$v.lname.$params.minLength.min}} letters.</div>
-        </b-form-group>
-
-        <b-form-group
-          id="input-group-4"
-          label="Date Of Birth:"
-          label-for="input-4"
-          :class="{ 'form-group--error': $v.date.$error }"
-        >
-          <b-form-input
-            id="input-4"
-            v-model.trim="$v.date.$model"
-            placeholder="Enter Date"
-            type="date"
-          ></b-form-input>
-          <div class="error" v-if="!$v.date.required">Field is required</div>
-        </b-form-group>
-
-        <b-form-group
-          id="input-group-5"
-          label="Gender:"
-          :class="{ 'form-group--error': $v.gender.$error }"
-        >
-          <b-form-radio-group id="gender-radio-group" v-model.trim="$v.gender.$model">
-            <b-form-radio name="some-radios" value="male">Male</b-form-radio>
-            <b-form-radio name="some-radios" value="female">Female</b-form-radio>
-          </b-form-radio-group>
-          <div class="error" v-if="!$v.gender.required">Field is required</div>
-        </b-form-group>
-
-        <b-form-group
-          id="input-group-6"
-          label="Email:"
-          label-for="input-6"
-          :class="{ 'form-group--error': $v.email.$error }"
-        >
-          <b-form-input
-            id="input-6"
-            v-model.trim="$v.email.$model"
-            type="email"
-            placeholder="name@mail.com"
-          ></b-form-input>
-          <div class="error" v-if="!$v.email.required">Field is required</div>
-        </b-form-group>
-
-        <!-- <b-form-group
-          id="input-group-7"
-          label="Password:"
-          label-for="input-7"
-          :class="{ 'form-group--error': $v.password.$error }"
-        >
-          <b-form-input
-            id="input-7"
-            v-model.trim="$v.password.$model"
-            placeholder="Enter password"
-            type="password"
-          ></b-form-input>
-          <div class="error" v-if="!$v.password.required">Field is required</div>
-          <div
-            class="error"
-            v-if="!$v.password.minLength"
-          >Should be greater than {{$v.password.$params.minLength.min}}</div>
-        </b-form-group> -->
-
-        <b-button type="submit" variant="primary">Submit</b-button>
-        <b-button type="reset" variant="danger">Reset</b-button>
-      </b-form>
-    </div>
+   <b-modal id="modal-prevent-closing" title="Add Person" hide-footer>
+        <div>
+          <b-form @submit="onSubmit" @reset="onReset">
+            <b-form-group
+              id="input-group-2"
+              label="First Name:"
+              label-for="input-2"
+               :class="{ 'form-group--error': $v.fname.$error.$dirty }"
+            >
+              <b-form-input
+                id="input-2"
+                v-model.trim="$v.fname.$model"
+                placeholder="Enter first name"
+              
+                
+              ></b-form-input>
+              <div class="error" v-if="!$v.fname.required">Field is required</div>
+              <div
+                class="error"
+                v-if="!$v.fname.minLength"
+              >Name must have at least {{$v.fname.$params.minLength.min}} letters.</div>
+            </b-form-group>
+    
+            <b-form-group
+              id="input-group-3"
+              label="Last Name:"
+              label-for="input-3"
+              :class="{ 'form-group--error': $v.lname.$error }"
+            >
+              <b-form-input id="input-3" v-model.trim="$v.lname.$model" placeholder="Enter last name"></b-form-input>
+    
+              <div class="error" v-if="!$v.lname.required">Field is required</div>
+              <div
+                class="error"
+                v-if="!$v.lname.minLength"
+              >Name must have at least {{$v.lname.$params.minLength.min}} letters.</div>
+            </b-form-group>
+    
+            <b-form-group
+              id="input-group-4"
+              label="Date Of Birth:"
+              label-for="input-4"
+              :class="{ 'form-group--error': $v.date.$error }"
+            >
+              <b-form-input
+                id="input-4"
+                v-model.trim="$v.date.$model"
+                placeholder="Enter Date"
+                type="date"
+              ></b-form-input>
+              <div class="error" v-if="!$v.date.required">Field is required</div>
+            </b-form-group>
+    
+            <b-form-group
+              id="input-group-5"
+              label="Gender:"
+              :class="{ 'form-group--error': $v.gender.$error }"
+            >
+              <b-form-radio-group id="gender-radio-group" v-model.trim="$v.gender.$model">
+                <b-form-radio name="some-radios" value="male">Male</b-form-radio>
+                <b-form-radio name="some-radios" value="female">Female</b-form-radio>
+              </b-form-radio-group>
+              <div class="error" v-if="!$v.gender.required">Field is required</div>
+            </b-form-group>
+    
+            <b-form-group
+              id="input-group-6"
+              label="Email:"
+              label-for="input-6"
+              :class="{ 'form-group--error': $v.email.$error }"
+            >
+              <b-form-input
+                id="input-6"
+                v-model.trim="$v.email.$model"
+                type="email"
+                placeholder="name@mail.com"
+              ></b-form-input>
+              <div class="error" v-if="!$v.email.required">Field is required</div>
+            </b-form-group>
+    
+            <!-- <b-form-group
+              id="input-group-7"
+              label="Password:"
+              label-for="input-7"
+              :class="{ 'form-group--error': $v.password.$error }"
+            >
+              <b-form-input
+                id="input-7"
+                v-model.trim="$v.password.$model"
+                placeholder="Enter password"
+                type="password"
+              ></b-form-input>
+              <div class="error" v-if="!$v.password.required">Field is required</div>
+              <div
+                class="error"
+                v-if="!$v.password.minLength"
+              >Should be greater than {{$v.password.$params.minLength.min}}</div>
+            </b-form-group> -->
+    
+            <b-button type="submit" variant="primary"  @click="$bvModal.hide('modal-prevent-closing')" >Submit</b-button>
+            <b-button type="reset" variant="danger">Reset</b-button>
+          </b-form>
+        </div>
+   </b-modal>
   </b-container>
 </template>
 
@@ -113,7 +115,8 @@ import {
   between,
   required,
   minLength,
-  email
+  email,
+  dirty
 } from "vuelidate/lib/validators";
 
 export default {
