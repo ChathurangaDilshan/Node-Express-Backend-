@@ -1,109 +1,101 @@
 <template>
   <b-container>
-   <b-modal id="modal-prevent-closing" title="Add Person" hide-footer>
-        <div>
-          <b-form @submit="onSubmit" @reset="onReset">
-            <b-form-group
-              id="input-group-2"
-              label="First Name:"
-              label-for="input-2"
-               :class="{ 'form-group--error': $v.fname.$error.$dirty }"
-            >
-              <b-form-input
-                id="input-2"
-                v-model.trim="$v.fname.$model"
-                placeholder="Enter first name"
-              
-                
-              ></b-form-input>
-              <div class="error" v-if="!$v.fname.required">Field is required</div>
-              <div
-                class="error"
-                v-if="!$v.fname.minLength"
-              >Name must have at least {{$v.fname.$params.minLength.min}} letters.</div>
-            </b-form-group>
-    
-            <b-form-group
-              id="input-group-3"
-              label="Last Name:"
-              label-for="input-3"
-              :class="{ 'form-group--error': $v.lname.$error }"
-            >
-              <b-form-input id="input-3" v-model.trim="$v.lname.$model" placeholder="Enter last name"></b-form-input>
-    
-              <div class="error" v-if="!$v.lname.required">Field is required</div>
-              <div
-                class="error"
-                v-if="!$v.lname.minLength"
-              >Name must have at least {{$v.lname.$params.minLength.min}} letters.</div>
-            </b-form-group>
-    
-            <b-form-group
-              id="input-group-4"
-              label="Date Of Birth:"
-              label-for="input-4"
-              :class="{ 'form-group--error': $v.date.$error }"
-            >
-              <b-form-input
-                id="input-4"
-                v-model.trim="$v.date.$model"
-                placeholder="Enter Date"
-                type="date"
-              ></b-form-input>
-              <div class="error" v-if="!$v.date.required">Field is required</div>
-            </b-form-group>
-    
-            <b-form-group
-              id="input-group-5"
-              label="Gender:"
-              :class="{ 'form-group--error': $v.gender.$error }"
-            >
-              <b-form-radio-group id="gender-radio-group" v-model.trim="$v.gender.$model">
-                <b-form-radio name="some-radios" value="male">Male</b-form-radio>
-                <b-form-radio name="some-radios" value="female">Female</b-form-radio>
-              </b-form-radio-group>
-              <div class="error" v-if="!$v.gender.required">Field is required</div>
-            </b-form-group>
-    
-            <b-form-group
-              id="input-group-6"
-              label="Email:"
-              label-for="input-6"
-              :class="{ 'form-group--error': $v.email.$error }"
-            >
-              <b-form-input
-                id="input-6"
-                v-model.trim="$v.email.$model"
-                type="email"
-                placeholder="name@mail.com"
-              ></b-form-input>
-              <div class="error" v-if="!$v.email.required">Field is required</div>
-            </b-form-group>
-    
-            <!-- <b-form-group
-              id="input-group-7"
-              label="Password:"
-              label-for="input-7"
-              :class="{ 'form-group--error': $v.password.$error }"
-            >
-              <b-form-input
-                id="input-7"
-                v-model.trim="$v.password.$model"
-                placeholder="Enter password"
-                type="password"
-              ></b-form-input>
-              <div class="error" v-if="!$v.password.required">Field is required</div>
-              <div
-                class="error"
-                v-if="!$v.password.minLength"
-              >Should be greater than {{$v.password.$params.minLength.min}}</div>
-            </b-form-group> -->
-    
-            <b-button type="submit" variant="primary"  @click="$bvModal.hide('modal-prevent-closing')" >Submit</b-button>
-            <b-button type="reset" variant="danger">Reset</b-button>
-          </b-form>
-        </div>
-   </b-modal>
+    <b-modal id="modal-prevent-closing" title="Add Person" hide-footer>
+      <div>
+        <b-form @submit="onSubmit" @reset="onReset">
+          <b-form-group id="input-group-2" label="First Name:" label-for="input-2">
+            <b-form-input
+              id="input-2"
+              v-model.trim="$v.fname.$model"
+              :class="{'is-invalid':$v.fname.$error, 'is-valid':!$v.fname.$invalid}"
+              placeholder="Enter first name"
+            ></b-form-input>
+
+            <div class="valid-feedback">Your First Name is valid!</div>
+            <div class="invalid-feedback">
+              <span v-if="!$v.fname.required">First Name is required</span>
+              <span v-if="!$v.fname.minLength">First Name must have at least {{$v.fname.$params.minLength.min}} letters.</span>
+            </div>
+          </b-form-group>
+
+          <b-form-group id="input-group-3" label="Last Name:" label-for="input-3">
+            <b-form-input
+              id="input-3"
+              v-model.trim="$v.lname.$model"
+              placeholder="Enter last name"
+              :class="{'is-invalid':$v.lname.$error, 'is-valid':!$v.lname.$invalid}"
+            ></b-form-input>
+
+            <div class="valid-feedback">Your Last Name is valid!</div>
+            <div class="invalid-feedback">
+              <span v-if="!$v.lname.required">Last Name is required</span>
+              <span v-if="!$v.lname.minLength">Last Name must have at least {{$v.lname.$params.minLength.min}} letters.</span>
+            </div>
+          </b-form-group>
+
+          <b-form-group
+            id="input-group-4"
+            label="Date Of Birth:"
+            label-for="input-4"
+           
+          >
+            <b-form-input
+              id="input-4"
+              v-model.trim="$v.date.$model"
+              placeholder="Enter Date"
+              type="date"
+               :class="{'is-invalid':$v.date.$error, 'is-valid':!$v.date.$invalid}"
+            ></b-form-input>
+                <div class="valid-feedback">Your Date of Birth is valid!</div>
+                <div class="invalid-feedback">
+                  <span v-if="!$v.date.required">Date of Birth is required</span>
+                </div>
+            
+          </b-form-group>
+
+          <b-form-group
+            id="input-group-5"
+            label="Gender:"
+          >
+            <b-form-radio-group id="gender-radio-group" v-model.trim="$v.gender.$model" :class="{'is-invalid':$v.gender.$error, 'is-valid':!$v.gender.$invalid}">
+              <b-form-radio name="some-radios" value="male">Male</b-form-radio>
+              <b-form-radio name="some-radios" value="female">Female</b-form-radio>
+            </b-form-radio-group>
+                <div class="valid-feedback">Your Gender is valid!</div>
+                <div class="invalid-feedback">
+                  <span v-if="!$v.gender.required">Gender is required</span>
+                </div>
+          </b-form-group>
+
+          <b-form-group
+            id="input-group-6"
+            label="Email:"
+            label-for="input-6"
+          >
+            <b-form-input
+              id="input-6"
+              v-model.trim="$v.email.$model"
+              type="email"
+              placeholder="name@mail.com"
+              :class="{'is-invalid':$v.email.$error, 'is-valid':!$v.email.$invalid}"
+            ></b-form-input>
+                <div class="valid-feedback">Your Email is valid!</div>
+                <div class="invalid-feedback">
+                  <span v-if="!$v.email.required">Email is required</span>
+                </div>
+          </b-form-group>
+
+          
+
+          <b-button
+            type="submit"
+            variant="primary"
+            @click="$bvModal.hide('modal-prevent-closing')"
+          >Submit</b-button>
+          <b-button type="reset" variant="danger">Reset</b-button>
+        </b-form>
+      </div>
+    </b-modal>
   </b-container>
 </template>
 
@@ -178,9 +170,8 @@ export default {
         dateOfBirth: this.date,
         gender: this.gender,
         email: this.email
-       
       };
-      console.log("submitting details = ",personDetails)
+      console.log("submitting details = ", personDetails);
       return this.$axios
         .$post("/persons", personDetails)
         .then(console.log("Saved"))
@@ -200,7 +191,6 @@ export default {
       this.form.lname = "";
       this.form.email = "";
       this.form.date = "";
-     
     },
     setFname(value) {
       this.fname = value;

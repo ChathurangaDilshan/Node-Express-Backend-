@@ -6,81 +6,94 @@
           <b-form-group id="input-group-u2" label="First Name:" label-for="input-2">
             <b-form-input
               id="input-2"
-              v-model.trim="form.fname"
+              v-model.trim="$v.form.fname.$model"
               placeholder="Enter first name"
-              :class="{ 'form-group--error': $v.form.fname.$error }"
+              :class="{'is-invalid':$v.form.fname.$error, 'is-valid':!$v.form.fname.$invalid}"
             ></b-form-input>
-            <div class="error" v-if="!$v.form.fname.required ">Field is required</div>
-            <div
-              class="error"
-              v-if="!$v.form.fname.minLength"
-            >Name must have at least {{$v.form.fname.$params.minLength.min}} letters.</div>
+            <div class="valid-feedback">Your First Name is valid!</div>
+            <div class="invalid-feedback">
+              <span v-if="!$v.form.fname.required">First Name is required</span>
+              <span
+                v-if="!$v.form.fname.minLength"
+              >First Name must have at least {{$v.form.fname.$params.minLength.min}} letters.</span>
+            </div>
           </b-form-group>
 
-          <b-form-group
-            id="input-group-u3"
-            label="Last Name:"
-            label-for="input-3"
-            :class="{ 'form-group--error': $v.form.lname.$error }"
-          >
-            <b-form-input id="input-3" v-model.trim="form.lname" placeholder="Enter last name"></b-form-input>
-            <div class="error" v-if="!$v.form.lname.required">Field is required</div>
-            <div
-              class="error"
-              v-if="!$v.form.lname.minLength"
-            >Name must have at least {{$v.form.lname.$params.minLength.min}} letters.</div>
+          <b-form-group id="input-group-u3" label="Last Name:" label-for="input-3">
+            <b-form-input
+              id="input-3"
+              v-model.trim="$v.form.lname.$model"
+              placeholder="Enter last name"
+              :class="{'is-invalid':$v.form.lname.$error, 'is-valid':!$v.form.lname.$invalid}"
+            ></b-form-input>
+            <div class="valid-feedback">Your Last Name is valid!</div>
+            <div class="invalid-feedback">
+              <span v-if="!$v.form.lname.required">Last Name is required</span>
+              <span
+                v-if="!$v.form.lname.minLength"
+              >Last Name must have at least {{$v.form.lname.$params.minLength.min}} letters.</span>
+            </div>
           </b-form-group>
 
-          <b-form-group
-            id="input-group-u4"
-            label="Date Of Birth:"
-            label-for="input-4"
-            :class="{ 'form-group--error': $v.form.date.$error }"
-          >
+          <b-form-group id="input-group-u4" label="Date Of Birth:" label-for="input-4">
             <b-form-input
               id="input-u4"
-              v-model.trim="form.date"
+              v-model.trim="$v.form.date.$model"
               placeholder="Enter Date"
               type="date"
+              :class="{'is-invalid':$v.form.date.$error, 'is-valid':!$v.form.date.$invalid}"
             ></b-form-input>
-            <div class="error" v-if="!$v.form.date.required">Field is required</div>
+            <div class="valid-feedback">Your Date of Birth is valid!</div>
+            <div class="invalid-feedback">
+              <span v-if="!$v.form.date.required">Date of Birth is required</span>
+            </div>
           </b-form-group>
 
-          <b-form-group
-            id="input-group-u5"
-            label="Gender:"
-            :class="{ 'form-group--error': $v.form.gender.$error }"
-          >
-            <b-form-radio-group id="gender-radio-group-u" v-model.trim="form.gender">
+          <b-form-group id="input-group-u5" label="Gender:">
+            <b-form-radio-group
+              id="gender-radio-group-u"
+              v-model.trim="$v.form.gender.$model"
+              :class="{'is-invalid':$v.form.gender.$error, 'is-valid':!$v.form.gender.$invalid}"
+            >
               <b-form-radio name="some-radios" value="male">Male</b-form-radio>
               <b-form-radio name="some-radios" value="female">Female</b-form-radio>
             </b-form-radio-group>
-            <div class="error" v-if="!$v.form.gender.required">Field is required</div>
+            <div class="valid-feedback">Your Gender is valid!</div>
+            <div class="invalid-feedback">
+              <span v-if="!$v.form.gender.required">Gender is required</span>
+            </div>
           </b-form-group>
 
-          <b-form-group
-            id="input-group-6u"
-            label="Email:"
-            label-for="input-6"
-            :class="{ 'form-group--error': $v.form.email.$error }"
-          >
+          <b-form-group id="input-group-6u" label="Email:" label-for="input-6">
             <b-form-input
               id="input-6u"
-              v-model.trim="form.email"
+              v-model.trim="$v.form.email.$model"
               type="email"
               placeholder="name@mail.com"
+              :class="{'is-invalid':$v.form.email.$error, 'is-valid':!$v.form.email.$invalid}"
             ></b-form-input>
-            <div class="error" v-if="!$v.form.email.required">Field is required</div>
+            <div class="valid-feedback">Your Email is valid!</div>
+            <div class="invalid-feedback">
+              <span v-if="!$v.form.email.required">Email is required</span>
+            </div>
           </b-form-group>
 
-          <b-form-group id="input-group-7u" label="Password:" label-for="input-7">
+          <b-form-group id="input-group-7u" label="Password:" label-for="password">
             <b-form-input
-              id="input-7u"
-              v-model="form.password"
+              id="password"
+              v-model="$v.form.password.$model"
               placeholder="Enter password"
               required
               type="password"
             ></b-form-input>
+          </b-form-group>
+
+          <b-form-group>
+            <b-form-checkbox
+              id="showpassword"
+              v-model="showpassword"
+              @change="toggleShowPassword"
+            >Show Password</b-form-checkbox>
           </b-form-group>
 
           <b-button type="submit" variant="primary" @click="$bvModal.hide('SaveEditPerson')">Update</b-button>
@@ -116,7 +129,8 @@ export default {
       date: "",
       gender: "",
       email: "",
-      password: ""
+      password: "",
+      showpassword: false
     };
   },
   props: {
@@ -171,6 +185,18 @@ export default {
         .$patch("/persons/" + this.form._id, personUpdatedDetails)
         .then(console.log("Updated"))
         .catch(e => console.log(e));
+    },
+
+    toggleShowPassword() {
+      var show = document.getElementById("password");
+      console.log(show);
+      if (this.showpassword === false) {
+        this.showpassword = true;
+        show.type = "text";
+      } else {
+        this.showpassword = false;
+        show.type = "password";
+      }
     }
   },
   mounted() {
@@ -185,26 +211,23 @@ export default {
     //   email: details.email,
     //   password: details.password
     // };
-
     // this.form = selected;
   },
   watch: {
-    itemDetails : function () {
-      
-        this.form._id = this.itemDetails._id,
-        this.form.fname =  this.itemDetails.fname,
-        this.form.lname = this.itemDetails.lname,
-        this.form.date = this.itemDetails.date,
-        this.form.gender = this.itemDetails.gender,
-       this.form.email = this.itemDetails.email,
-       this.form.password = this.itemDetails.password
-      
-    // this.form = itemDetails
-    console.log("this.form",this.form)
-    this.$bvModal.show('SaveEditPerson')
+    itemDetails: function() {
+      (this.form._id = this.itemDetails._id),
+        (this.form.fname = this.itemDetails.fname),
+        (this.form.lname = this.itemDetails.lname),
+        (this.form.date = this.itemDetails.date),
+        (this.form.gender = this.itemDetails.gender),
+        (this.form.email = this.itemDetails.email),
+        (this.form.password = this.itemDetails.password);
+
+      // this.form = itemDetails
+      console.log("this.form", this.form);
+      this.$bvModal.show("SaveEditPerson");
     }
   }
-  
 };
 </script>
 
