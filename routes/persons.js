@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Person = require('../models/person')
+const password = require('secure-random-password')
 
 //Getting all
 router.get('/', async (req, res) => {
@@ -30,21 +31,23 @@ router.get('/:id', getPerson ,async (req, res) => {
 router.post('/', async (req, res) => {
 
     res.header('Access-Control-Allow-Origin', "*");
-       
+       let newPassword = password.randomPassword({ length:10 ,characters:password.lower + password.upper + password.digits})
     const person = new Person({
-        userId: req.body.userId,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         dateOfBirth: req.body.dateOfBirth,
         gender: req.body.gender,
         email: req.body.email,
-        password: req.body.password
+        password: newPassword
     })
+    console.log("place =", req.body.email)
     try {
         const newPerson = await person.save()
+        console.log(newPassword)
         res.status(201).json(newPerson)
     } catch (error) {
-        res.status(400).json({message: err.message})        
+        res.status(400).json({message: error.message})    
+        console.log(error)    
     }
 })
 

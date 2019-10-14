@@ -3,41 +3,45 @@
     <b-card>
       <b-card>
         <b-row>
-          <b-button v-b-modal.modal-prevent-closing>Add Person</b-button>
+          <b-button v-b-modal.modal-prevent-closing id="addPerson" title="Add Person">
+            Add Person
+            <SavePerson />
+          </b-button>
 
-          <b-modal id="modal-prevent-closing" title="Add Person" hide-footer>
-            <SavePerson ref="form" @submit.stop.prevent="handleSubmit" />
-          </b-modal>
+          <!-- <b-modal id="modal-prevent-closing" title="Add Person" hide-footer>
+            <SavePerson ref="form" @submit="$bvModal.hide(modal-prevent-closing)" />
+          </b-modal>-->
         </b-row>
       </b-card>
       <b-card>
         <b-row>
           <div>
-            <b-table striped hover :items="items" :fields="fields">
-              <template v-slot:cell(action)="row">
+            <b-table striped hover :items="items" :fields="fields" >
+              <template v-slot:cell(action)="row" >
                 <b-button
-                  v-b-modal.SavePerson
+                  id="edit"
+                 
                   @click="showEditPerson(row.item)"
                   size="sm"
                   class="mr-1"
-                >Edit</b-button>
+                >Edit </b-button>
               </template>
             </b-table>
           </div>
         </b-row>
       </b-card>
     </b-card>
-
-    <b-modal id="SavePerson" title="Edit Person" hide-footer   >
-      <UpdatePerson ref="form" :form="form" />
-    </b-modal>
+    <UpdatePerson   :itemDetails="itemDetails" />
+    <!-- <b-modal id="SaveEditPerson"  hide-footer   >
+      <UpdatePerson ref="form" :itemDetails="itemDetails" />
+    </b-modal> -->
   </b-container>
 </template>
 
 <script>
 import SavePerson from "~/components/SavePerson";
 import UpdatePerson from "~/components/UpdatePerson";
-import moment from 'moment';
+import moment from "moment";
 
 export default {
   components: {
@@ -49,7 +53,7 @@ export default {
   // },
   data: () => ({
     fields: [
-      "user_id",
+      // "user_id",
       "first_name",
       "last_name",
       "date_of_birth",
@@ -57,17 +61,7 @@ export default {
       "action"
     ],
     items: [],
-    form: {
-      _id: "",
-      userId: "",
-      fname: "",
-      lname: "",
-      date: "",
-      gender: "",
-      email: "",
-      password: ""
-    }
-    
+    itemDetails: {}
   }),
   mounted() {
     return this.$axios
@@ -87,7 +81,7 @@ export default {
           user_id: data.userId,
           first_name: data.firstName,
           last_name: data.lastName,
-          date_of_birth: data.dateOfBirth,
+          date_of_birth: moment(data.dateOfBirth).format("YYYY-MM-DD"),
           gender: data.gender,
           email: data.email,
           password: data.password
@@ -100,13 +94,11 @@ export default {
       console.log("edit the person details ", item);
 
       let dob = item.date_of_birth;
-     let newDate =  moment(dob).format("YYYY-MM-DD");
-
-
+      let newDate = moment(dob).format("YYYY-MM-DD");
 
       const selectedItem = {
         _id: item._id,
-        userId: item.user_id,
+        // userId: item.user_id,
         fname: item.first_name,
         lname: item.last_name,
         date: newDate,
@@ -115,9 +107,11 @@ export default {
         password: item.password
       };
 
-      console.log("selectedItem = ", selectedItem)
+      this.itemDetails = selectedItem;
 
-      this.form = selectedItem;
+      console.log("selectedItem = ", selectedItem);
+      console.log("itemDetails =", this.itemDetails);
+
       // item = this.form
     }
   },
